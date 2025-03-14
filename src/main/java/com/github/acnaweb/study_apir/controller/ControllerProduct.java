@@ -1,7 +1,6 @@
 package com.github.acnaweb.study_apir.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.acnaweb.study_apir.dto.ProductRequestCreate;
+import com.github.acnaweb.study_apir.dto.ProductRequestUpdate;
 import com.github.acnaweb.study_apir.model.Product;
 import com.github.acnaweb.study_apir.service.ProductService;
 
@@ -26,8 +27,8 @@ public class ControllerProduct {
 
     @PostMapping
     public ResponseEntity<Product> create(
-                                @RequestBody Product product) {                                    
-        Product productCreated = productService.createProduct(product);
+                                @RequestBody ProductRequestCreate dto) { //Solicita à classe                                   
+        Product productCreated = productService.createProduct(dto);
         return ResponseEntity.status(201).body(productCreated);
     }
 
@@ -44,16 +45,22 @@ public class ControllerProduct {
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> 
-            update(@PathVariable Long id, @RequestBody Product product) {
+            update(@PathVariable Long id, @RequestBody ProductRequestUpdate dto) {
        
-        return productService.updateProduct(id, product)
+        return productService.updateProduct(id, dto)
             .map(ResponseEntity::ok)
             .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> findById(@PathVariable Long id) {
-        return ResponseEntity.status(200).body(null);        
+        return productService.getProductById(id)
+            .map(ResponseEntity::ok) // Equivalente aos comentarios abaixo
+            .orElse(ResponseEntity.notFound().build());
+
+        //return ResponseEntity.status(200).body(null); 
+        //return ResponseEntity.ok(null);
+        //.map(p -> ResponseEntity.ok(p))
     }
 
     @GetMapping
