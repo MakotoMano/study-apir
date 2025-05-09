@@ -37,7 +37,8 @@ public class ControllerPedido {
 
     @GetMapping("{id}")
     public ResponseEntity<PedidoResponse> findById(@PathVariable Long id){
-	    return ResponseEntity.noContent().build();
+	    return pedidoService.get
+        ResponseEntity.noContent().build();
     }
 
     @GetMapping()

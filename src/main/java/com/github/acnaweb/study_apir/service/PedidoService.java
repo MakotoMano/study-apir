@@ -73,20 +73,20 @@ public class PedidoService {
     //     pedido.setItems(items);
 
     //     return pedidoRepository.save(pedido);
-    // }
-    // public boolean delete(Long id) {
-    //     return false;
-    // }
-    // public Optional<Pedido> update(Long id, PedidoRequestUpdate dto) {
-    //     return pedidoRepository.findById(id)
-    //         .map(p -> pedidoRepository.save(p));
+    }
+    public boolean delete(Long id) {
+        return false;
+    }
+    public Optional<Pedido> update(Long id, PedidoRequestUpdate dto) {
+        return pedidoRepository.findById(id)
+            .map(p -> pedidoRepository.save(p));
 
-    // }
-    // public Optional<Pedido> getById(Long id) {
-    //     return pedidoRepository.findById(id);
-    // }
+    }
+    public Optional<Pedido> getById(Long id) {
+        return pedidoRepository.findById(id);
+    }
 
-    // public List<Pedido> getAll() {
-    //     return pedidoRepository.findAll();
-    // }    
+    public List<Pedido> getAll() {
+         return pedidoRepository.findAll();
+    }    
 }
