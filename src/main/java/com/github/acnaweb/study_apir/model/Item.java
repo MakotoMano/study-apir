@@ -2,10 +2,14 @@ package com.github.acnaweb.study_apir.model;
 
 import java.math.BigDecimal;
 
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -19,6 +23,8 @@ public class Item {
     private Pedido pedido;
 
     @ManyToOne
+    @Cascade(value = CascadeType.ALL)
+    @JoinColumn(name = "produto_id") //A notação JoinColumn define a coluna no banco de dados, caso o nome não for definido em join column, o banco gera aleatoriamente um nome para a coluna
     private Produto produto;
 
     private BigDecimal valor;

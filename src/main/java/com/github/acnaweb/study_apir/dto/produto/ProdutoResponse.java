@@ -9,6 +9,7 @@ public class ProdutoResponse {
     private String nome;
     private BigDecimal valor;
 
+    
     public ProdutoResponse toDto(Produto product) {
         this.setId(product.getId());
         this.setNome(product.getNome());

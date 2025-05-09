@@ -1,5 +1,6 @@
 package com.github.acnaweb.study_apir.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -20,8 +21,42 @@ import com.github.acnaweb.study_apir.repository.ProdutoRepository;
 public class PedidoService {
     @Autowired
     private ItemRepository itemRepository;
+    @Autowired
     private PedidoRepository pedidoRepository;
+    @Autowired
     private ProdutoRepository produtoRepository;
+
+    public Pedido create(PedidoRequestCreate dto) {
+        Pedido pedido = new Pedido();
+        pedido.setStatus("ABERTO");
+
+        //mapear o sitens de dto.getItems() para List<Item> items
+        List<Item> itens = dto.getItems().stream()
+                    .map(i -> {
+                        Item item = new Item();
+                        //mapeamento
+                        Produto produto = produtoRepository
+                        .findById(i.getProduto_id())
+                        .orElseThrow(() ->
+                                new RuntimeException(
+                                    "Produto inexistente: " + i.getProduto_id()));
+                        // mapeamento
+                        //Optional<Produto> opt = produtoRepository.findById(i.getProduto_id());
+                        //if (opt.isPresent()){
+                        //    produto = opt.get();
+                        //} else {
+                        //    throw new RuntimeException("Produto não encontrado");
+                        //}
+                        item.setProduto(produto);
+                        item.setValor(i.getValor());
+                        item.setQuantidade(i.getQuantidade());
+                        item.setPedido(pedido);
+                        return item;
+                    })
+                    .collect(Collectors.toList());
+        pedido.setItems(itens);
+        return pedidoRepository.save(pedido);
+    }
 
     // public Pedido create(PedidoRequestCreate dto) {
 
